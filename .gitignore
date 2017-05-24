@@ -63,3 +63,8 @@ local.properties
 .cache-main
 .scala_dependencies
 .worksheet
+
+# bower config
+node_modules/
+bower_components/
+src/main/resources/static/js/bower_components/
