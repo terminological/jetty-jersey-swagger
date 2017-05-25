@@ -11,15 +11,17 @@ https://github.com/SriramKeerthi/swagger-jersey2-jetty/tree/master/swagger-jerse
 
 - Java 8
 - Maven
-- npm
-- bower.js
+- npm (sudo apt get install node npm)
+- bower.js (sudo npm install -g bower)
+- bower-requirejs (sudo npm install -g bower-requirejs)
 
 ## What works
 
 - Possible to serve static files for api client
 - CORS and JSON pretty print API output based on JAX-RS classes
-- 
-
+- bower install executed on: mvn generate-sources
+- front end dependencies via 'bower install XXX.js --save' in root of project 
+- requirejs config file generated
 
 ## What doesn't (yet)
 

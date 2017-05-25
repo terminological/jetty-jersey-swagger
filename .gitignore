@@ -67,4 +67,6 @@ local.properties
 # bower config
 node_modules/
 bower_components/
-src/main/resources/static/js/bower_components/
+src/main/resources/static/assets/bower_components/
+src/main/resources/compiled
+

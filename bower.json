@@ -12,11 +12,15 @@
     "**/.*",
     "node_modules",
     "bower_components",
-    "src/main/resources/static/js/bower_components",
+    "src/main/resources/static/assets/bower_components",
     "test",
     "tests"
   ],
   "dependencies": {
-    "d3": "^4.9.1"
+    "d3": "^4.9.1",
+    "dcjs": "dc.js#^2.1.5"
+  },
+  "resolutions": {
+    "d3": "3.x"
   }
 }

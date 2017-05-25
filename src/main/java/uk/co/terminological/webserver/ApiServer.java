@@ -27,24 +27,23 @@ import io.swagger.models.Swagger;
 /**
  * Main Class for starting the Entity Browser
  */
-public abstract class ApiServer implements AutoCloseable {
+public class ApiServer implements AutoCloseable {
 	
 	private static final Logger logger = LoggerFactory.getLogger( ApiServer.class );
 	private Server server;
-
-	public abstract int getPort();
-	public abstract String getApiVersion();
-	public abstract String getApiName();
-	public abstract String getApiDescription();
+	private ApiConfig apiConfig;
 	
-	public String getApiPath() {return "/api/";}
-	
-	public ApiServer(String packageName) {
-		start(buildApiContext(packageName));
+	public ApiServer(ApiConfig apiConfig) {
+		this.apiConfig=apiConfig;
+		if (apiConfig.getPackageName() != null) {
+			start(buildApiContext(apiConfig.getPackageName()));
+		} else {
+			start(buildApiContext(apiConfig.getClasses()));	
+		}
 	}
-		
-	public ApiServer(Class<?>... apiClasses) {
-		start(buildApiContext(apiClasses));
+	
+	public static ApiServer run(ApiConfig apiConfig) {
+		return new ApiServer(apiConfig);
 	}
 	
 	private void start(ContextHandler api) {
@@ -52,7 +51,7 @@ public abstract class ApiServer implements AutoCloseable {
 			Resource.setDefaultUseCaches( false );
 			
 			// Start server
-			server = new Server( this.getPort() );
+			server = new Server( this.apiConfig.getPort() );
 			
 			final HandlerList handlers = new HandlerList();
 			handlers.addHandler( api );
@@ -75,11 +74,11 @@ public abstract class ApiServer implements AutoCloseable {
 	            .withSwaggerConfig(new SwaggerConfig() {
 	                public Swagger configure(Swagger swagger) {
 	                    Info info = new Info();
-	                    info.setTitle(ApiServer.this.getApiName());
-	                    info.setVersion(ApiServer.this.getApiVersion());
-	                    info.setDescription(ApiServer.this.getApiDescription());
+	                    info.setTitle(ApiServer.this.apiConfig.getApiName());
+	                    info.setVersion(ApiServer.this.apiConfig.getApiVersion());
+	                    info.setDescription(ApiServer.this.apiConfig.getApiDescription());
 	                    swagger.setInfo(info);
-	                    swagger.setBasePath(ApiServer.this.getApiPath());
+	                    swagger.setBasePath(ApiServer.this.apiConfig.getApiPath());
 	                    return swagger;
 	                }
 	                public String getFilterClass() {
@@ -125,7 +124,7 @@ public abstract class ApiServer implements AutoCloseable {
 		ServletContainer servletContainer = new ServletContainer( resourceConfig );
 		ServletHolder entityBrowser = new ServletHolder( servletContainer );
 		ServletContextHandler entityBrowserContext = new ServletContextHandler( ServletContextHandler.SESSIONS );
-		entityBrowserContext.setContextPath( this.getApiPath() );
+		entityBrowserContext.setContextPath( this.apiConfig.getApiPath() );
 		entityBrowserContext.addServlet( entityBrowser, "/*" );
 		return entityBrowserContext;
 	}
