@@ -64,9 +64,7 @@ local.properties
 .scala_dependencies
 .worksheet
 
-# bower config
+# node config
 node_modules/
-bower_components/
-src/main/resources/static/assets/bower_components/
-src/main/resources/compiled
+src/main/resources/dist
 

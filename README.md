@@ -1,7 +1,8 @@
 # jetty-jersey-swagger
 
-A base line configuration for a jetty hosted website with a jax-rs api and swagger documentation coupled to a static file webserver
-The baseline should also allow for bower to install dependencies and require.js to 
+A base line configuration for a jetty hosted website with a jax-rs api and swagger documentation coupled to a static file webserver.
+
+The baseline should also allow for bower to install dependencies and webpack 
 
 
 https://danielflower.github.io/2016/04/01/Swagger-with-embedded-jetty-without-magic.html
@@ -12,19 +13,34 @@ https://github.com/SriramKeerthi/swagger-jersey2-jetty/tree/master/swagger-jerse
 - Java 8
 - Maven
 - npm (sudo apt get install node npm)
-- bower.js (sudo npm install -g bower)
-- bower-requirejs (sudo npm install -g bower-requirejs)
+- webpack (npm install --save-dev webpack html-webpack-plugin style-loader css-loader csv-loader xml-loader markdown-loader)
 
 ## What works
 
 - Possible to serve static files for api client
 - CORS and JSON pretty print API output based on JAX-RS classes
-- bower install executed on: mvn generate-sources
-- front end dependencies via 'bower install XXX.js --save' in root of project 
-- requirejs config file generated
+- npm install executed on: mvn generate-sources
+- front end dependencies via webpack on mvn generate-sources
 
 ## What doesn't (yet)
 
-- compiling html templates using jbake
-- http://jbake.org/docs/2.5.1/
-- preprocessing phase using maven and freemarker to compile static web content
+- compiling css / html templates using webpack
+- preprocessing phase using webpack to compile static web content
+
+## How to:
+
+### Add java dependencies
+add them in maven's pom.xml
+
+### Add javascript dependencies
+use npm: npm install --save <scriptname>
+or 
+add them direct to package.json and perform a mvn generate-sources.
+
+### trigger webpack build. 
+use npm start or mvn generate-sources
+
+
+### interactive webpack development. 
+use npm test from root directory
+

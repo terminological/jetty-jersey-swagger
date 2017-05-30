@@ -68,6 +68,12 @@
 	</dependencies>
 
 	<build>
+		
+		<!-- One day
+		<sourceDirectory>${project.basedir}/src/main/kotlin</sourceDirectory>
+    	<testSourceDirectory>${project.basedir}/src/test/kotlin</testSourceDirectory>
+		-->
+		
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -90,13 +96,35 @@
 					</execution>
 				</executions>
 				<configuration>
-					<executable>bower</executable>
+					<executable>npm</executable>
 					<arguments>
 						<argument>install</argument>
 					</arguments>
 					<workingDirectory>${basedir}</workingDirectory>
 				</configuration>
 			</plugin>
+
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>exec</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<executable>npm</executable>
+					<arguments>
+						<argument>start</argument> 
+					</arguments>
+					<workingDirectory>${basedir}</workingDirectory>
+				</configuration>
+			</plugin>
+
+			
 
 		</plugins>
 	</build>

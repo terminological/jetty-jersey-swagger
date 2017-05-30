@@ -131,7 +131,7 @@ public class ApiServer implements AutoCloseable {
 	
 	private ContextHandler buildStatic() throws Exception {
 		final ResourceHandler staticResourceHandler = new ResourceHandler();
-		staticResourceHandler.setResourceBase( this.getClass().getClassLoader().getResource("static").toURI().toString() );
+		staticResourceHandler.setResourceBase( this.getClass().getClassLoader().getResource("dist").toURI().toString() );
 		final ContextHandler staticContext = new ContextHandler();
 		staticContext.setContextPath( "/" );
 		staticContext.setHandler( staticResourceHandler );
