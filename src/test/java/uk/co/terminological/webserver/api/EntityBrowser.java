@@ -12,8 +12,13 @@ import javax.ws.rs.core.Response;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * An example of a swagger and jax-rs annotated API
+ * @author rc538
+ *
+ */
 @Path("/entities")
-@Api (value = "/entities", description = "Web Services to browse entities")
+@Api (value = "/entities")
 public class EntityBrowser {
     @GET
     @Path("/any")
@@ -27,7 +32,12 @@ public class EntityBrowser {
 
     @GET
     @Path("/all")
-    @ApiOperation (value = "Return all entities", notes = "Returns all entities in the collection", response = Entity.class, responseContainer = "List")
+    @ApiOperation (
+    		value = "Return all entities", 
+    		notes = "Returns all entities in the collection", 
+    		response = Entity.class, 
+    		responseContainer = "List"
+    		)
     @Produces(MediaType.APPLICATION_JSON)
     public Response getResult() {
         List<Entity> entityList = new ArrayList<Entity>();

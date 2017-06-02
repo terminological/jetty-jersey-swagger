@@ -25,28 +25,32 @@ import io.swagger.models.Swagger;
 
 
 /**
- * Main Class for starting the Entity Browser
+ * The ApiServer is a Jetty backed webserver with a set of default behaviours that include static file serving from the 
+ * server root out of a "src/main/resources/dist" directory in the jar. 
  */
 public class ApiServer implements AutoCloseable {
 	
 	private static final Logger logger = LoggerFactory.getLogger( ApiServer.class );
 	private Server server;
 	private ApiConfig apiConfig;
+	private ContextHandler apiContext;
 	
+	// 
 	public ApiServer(ApiConfig apiConfig) {
 		this.apiConfig=apiConfig;
 		if (apiConfig.getPackageName() != null) {
-			start(buildApiContext(apiConfig.getPackageName()));
+			this.apiContext = buildApiContext(apiConfig.getPackageName());
 		} else {
-			start(buildApiContext(apiConfig.getClasses()));	
+			this.apiContext = buildApiContext(apiConfig.getClasses());	
 		}
+		start();
 	}
 	
 	public static ApiServer run(ApiConfig apiConfig) {
 		return new ApiServer(apiConfig);
 	}
 	
-	private void start(ContextHandler api) {
+	private void start() {
 		try {
 			Resource.setDefaultUseCaches( false );
 			
@@ -54,17 +58,15 @@ public class ApiServer implements AutoCloseable {
 			server = new Server( this.apiConfig.getPort() );
 			
 			final HandlerList handlers = new HandlerList();
-			handlers.addHandler( api );
+			handlers.addHandler( apiContext );
 			handlers.addHandler( buildSwaggerUI() );
 			handlers.addHandler( buildStatic() );
 			
-			
 			server.setHandler( handlers );
 			server.start();
-			server.join();
 			
 		} catch ( Exception e ) {
-			logger.error( "There was an error starting up the Entity Browser", e );
+			logger.error( "There was an error starting up the JAX-RS api and web server", e );
 			throw new RuntimeException(e);
 		}
 	}
@@ -86,7 +88,7 @@ public class ApiServer implements AutoCloseable {
 	                }
 	            })
 	            .withScanner(new Scanner() {
-	                private boolean prettyPrint;
+	                private boolean prettyPrint = true;
 	                public Set<Class<?>> classes() {
 	                	return rc.getClasses();
 	                }
@@ -144,7 +146,7 @@ public class ApiServer implements AutoCloseable {
             .getResource("META-INF/resources/webjars/swagger-ui/2.1.4")
             .toURI().toString());
         ContextHandler context = new ContextHandler();
-        context.setContextPath("/docs/");
+        context.setContextPath( this.apiConfig.getDocPath() );
         context.setHandler(rh);
         return context;
     }

@@ -2,71 +2,72 @@ package uk.co.terminological.webserver;
 
 public class ApiConfig {
 
-	private ApiConfig(String apiName, String apiDescription, String apiVersion, int port, String apiPath) {
+	private ApiConfig(String apiName, String apiDescription, String apiVersion, int port, String apiPath, String docPath) {
 		super();
 		this.apiDescription = apiDescription;
 		this.apiName = apiName;
 		this.apiVersion = apiVersion;
 		this.port = port;
-		this.setApiPath(apiPath);
+		this.apiPath = apiPath;
+		this.docPath = docPath;
 	}
 	
-	public static ApiConfig from(String apiName, String apiDescription, String apiVersion, int port, String apiPath) {
-		return new ApiConfig(apiName, apiDescription, apiVersion, port, apiPath);
+	public static ApiConfig from(String apiName, String apiDescription, String apiVersion, int port, String apiPath, String docPath) {
+		return new ApiConfig(apiName, apiDescription, apiVersion, port, apiPath, docPath);
+	}
+	
+	public static ApiConfig from(String apiName, String apiDescription, String apiVersion, int port) {
+		return new ApiConfig(apiName, apiDescription, apiVersion, port, "/api/", "/doc/");
+	}
+	
+	public static ApiConfig from(String apiName, String apiDescription, String apiVersion) {
+		return new ApiConfig(apiName, apiDescription, apiVersion, 8080, "/api/", "/doc/");
 	}
 
 	private String apiDescription;
 	private String apiName;
 	private String apiVersion;
 	private String apiPath;
+	private String docPath;
 	private int port;
 	private Class<?>[] classes;
 	private String packageName;
 	
 	// Getters
-	public int getPort() {
+	protected int getPort() {
 		return port;
 	}
 	
-	public String getApiVersion() {
+	protected String getApiVersion() {
 		return apiVersion;
 	}
 	
-	public String getApiName() {
+	protected String getApiName() {
 		return apiName;
 	}
 	
-	public String getApiDescription() {
+	protected String getApiDescription() {
 		return apiDescription;
 	}
 
-	public Class<?>[] getClasses() {
+	protected Class<?>[] getClasses() {
 		return classes;
 	}
 
-	public String getPackageName() {
+	protected String getPackageName() {
 		return packageName;
 	}
 
-	// Setters
-	public void setApiDescription(String apiDescription) {
-		this.apiDescription = apiDescription;
+	protected String getDocPath() {
+		return docPath;
 	}
-
-	public void setApiName(String apiName) {
-		this.apiName = apiName;
-	}
-
-	public void setApiVersion(String apiVersion) {
-		this.apiVersion = apiVersion;
-	}
-
-	public void setPort(int port) {
-		this.port = port;
+	
+	protected String getApiPath() {
+		return apiPath;
 	}
 	
 	// Fluent
-	public ApiConfig withClasses(Class<?>... classes) {
+	public ApiConfig withEndpoints(Class<?>... classes) {
 		this.classes = classes;
 		return this;
 	}
@@ -74,14 +75,6 @@ public class ApiConfig {
 	public ApiConfig withPackageName(String packageName) {
 		this.packageName = packageName;
 		return this;
-	}
-
-	public String getApiPath() {
-		return apiPath;
-	}
-
-	public void setApiPath(String apiPath) {
-		this.apiPath = apiPath;
 	}
 	
 }

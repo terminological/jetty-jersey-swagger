@@ -1,10 +1,12 @@
 ## An about us markdown file
+<!-- {.warning} -->
 
 This markdown file should be rendered and inserted into a page
 
 <div id="graph1"></div>
 
 - That div will be an anchor point for a d3 graph defined by the about.js file
+
 
 
 | Tables        | Are           | Cool  |
@@ -14,11 +16,13 @@ This markdown file should be rendered and inserted into a page
 | zebra stripes | are neat      |    $1 |
 | hello otis |       |     |
 
+
 #  HELLO OTIS
 
 It worked!
 
 Woo Hooo!!!!
+<!-- {.warning} -->
 
 :-)
 

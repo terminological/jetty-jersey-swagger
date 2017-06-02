@@ -1,6 +1,7 @@
 import * as d3 from "d3";
-import content from "./page.md"
-import "../common/css/common.css"
+import content from "./page.md";
+import "../common/css/common.less"
+
 
 document.body.innerHTML = content;
 
