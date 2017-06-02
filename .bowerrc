@@ -1,7 +1,0 @@
-{
-  "directory": "src/main/resources/static/assets/bower_components",
-  "timeout": 120000,
-  "scripts": {
-  		"postinstall": "bower-requirejs -c src/main/resources/static/assets/js/config.js"
-  }
-}
