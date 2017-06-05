@@ -38,7 +38,6 @@ It is assumed you will be forking this whole project and modifying to build cust
 ### URLs
 
 - by default site will be served on port 8080 - see uk.co.terminological.webserver.ApiConfig
-
 - / static files from ./src/main/resources/dist as compiled by webpack - urls available as defined by webpack.config.js
 - /api/<jax-rs-endpoint>/<options> default location of api files - can be changed by ApiConfig
 - /api/swagger.json or /api/swagger.yaml default swagger api description
