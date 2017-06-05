@@ -3,6 +3,7 @@
  * Update this to reflect changes
  */
 var path = require('path');
+var webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
@@ -10,6 +11,7 @@ module.exports = {
 			index: path.resolve(__dirname, 'src/index/index.js'),
 			about: path.resolve(__dirname, 'src/about/index.js'),
 			d3csv: path.resolve(__dirname, 'src/d3csv/index.js'),
+			images: path.resolve(__dirname, 'src/images/index.js'),
 			// need to add an entry for every page here.
 			// possible to do this programmatically by scanning the ./src directory for js files?
 		},
@@ -30,7 +32,7 @@ module.exports = {
 				}
 				// this would needs to be updated to match port and paths that the backend api is running on 
 				// if the backend defaults are changed
-			]
+				]
 		},
 		module: {
 			rules: [
@@ -39,15 +41,15 @@ module.exports = {
 					use: [ 'style-loader', 'css-loader' ]
 				},
 				{
-		            test: /\.less$/,
-		            use: [{
-		                loader: "style-loader" // creates style nodes from JS strings
-		            }, {
-		                loader: "css-loader" // translates CSS into CommonJS
-		            }, {
-		                loader: "less-loader" // compiles Less to CSS
-		            }]
-		        },
+					test: /\.less$/,
+					use: [{
+						loader: "style-loader" // creates style nodes from JS strings
+					}, {
+						loader: "css-loader" // translates CSS into CommonJS
+					}, {
+						loader: "less-loader" // compiles Less to CSS
+					}]
+				},
 				{
 					test: /\.(csv|tsv)$/,
 					use: 'csv-loader'
@@ -83,10 +85,25 @@ module.exports = {
 					use: [
 						'file-loader'
 						]
+				},
+				{
+					test: /\.html$/,
+					use: [ {
+						loader: 'html-loader',
+						options: {
+							minimize: true,
+							removeComments: false,
+							collapseWhitespace: false
+						}
+					}]
 				}
 				]
 		},
 		plugins: [
+			new webpack.ProvidePlugin({
+				  $: 'jquery',
+				  jQuery: 'jquery'
+			}),
 			new HtmlWebpackPlugin({
 				title: 'Index',
 				filename: 'index.html',
@@ -103,6 +120,12 @@ module.exports = {
 				title: 'About this site',
 				filename: 'd3csv.html',
 				chunks: ['d3csv'],
+				template: path.resolve(__dirname, 'src/common/templates/basic-page.ejs') // Load a custom template (ejs by default see the FAQ for details)
+			}),
+			new HtmlWebpackPlugin({
+				title: 'tmp test',
+				filename: 'images.html',
+				chunks: ['images'],
 				template: path.resolve(__dirname, 'src/common/templates/basic-page.ejs') // Load a custom template (ejs by default see the FAQ for details)
 			}),
 			// entry for every page needed or have a html template file in the directory
