@@ -60,6 +60,7 @@ It is assumed you will be forking this whole project and modifying to build cust
 
 - Pretty print XML or other API output formats.
 - Any form of complex routing or authentication - if you need this you need to do it properly.
+- [See this stackoverflow question](https://stackoverflow.com/questions/26777083/best-practice-for-rest-token-based-authentication-with-jax-rs-and-jersey)
 
 ## How to:
 

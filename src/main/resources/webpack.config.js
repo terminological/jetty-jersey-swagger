@@ -2,19 +2,17 @@
  * Base line webpack.config.js for the jetty-jersey-swagger server
  * Update this to reflect changes
  */
+
+var pages = require('./webpack.pages.js');
 var path = require('path');
 var webpack = require('webpack');
+var merge = require('webpack-merge');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 
-module.exports = {
-		entry: {
+var staticConfig = {
+		/*entry: {
 			index: path.resolve(__dirname, 'src/index/index.js'),
-			about: path.resolve(__dirname, 'src/about/index.js'),
-			d3csv: path.resolve(__dirname, 'src/d3csv/index.js'),
-			images: path.resolve(__dirname, 'src/images/index.js'),
-			// need to add an entry for every page here.
-			// possible to do this programmatically by scanning the ./src directory for js files?
-		},
+		}, entries are handled in the webpack.pages.js*/
 		output: {
 			filename: '[name]-bundle.js',
 			path: path.resolve(__dirname, 'dist')
@@ -42,13 +40,7 @@ module.exports = {
 				},
 				{
 					test: /\.less$/,
-					use: [{
-						loader: "style-loader" // creates style nodes from JS strings
-					}, {
-						loader: "css-loader" // translates CSS into CommonJS
-					}, {
-						loader: "less-loader" // compiles Less to CSS
-					}]
+					use: [ 'style-loader', 'css-loader', 'less-loader' ]
 				},
 				{
 					test: /\.(csv|tsv)$/,
@@ -62,7 +54,12 @@ module.exports = {
 					test: /\.md$/,
 					use: [
 						{
-							loader: "html-loader"
+							loader: "html-loader",
+							options: {
+								interpolate: true,  // allows ${import("./anotherfile.html")} statements in markdown
+								removeComments: false,
+								collapseWhitespace: false
+							}
 						},
 						{
 							loader: "markdownit-loader",
@@ -73,7 +70,8 @@ module.exports = {
 								use: [
 									require('markdown-it-sub'),
 									require('markdown-it-sup'),
-									require('markdown-it-decorate'),
+									require('markdown-it-decorate'), // allows <!-- {.classname} --> to apply to previous markdown element
+									[require('markdown-it-implicit-figures'), {figcaption: true}] // ![some caption](./image.png)
 									//add more plugins here.... 
 									]
 							}
@@ -91,7 +89,7 @@ module.exports = {
 					use: [ {
 						loader: 'html-loader',
 						options: {
-							minimize: true,
+							interpolate: true,   // allows ${import("./anotherfile.html")} statements in html
 							removeComments: false,
 							collapseWhitespace: false
 						}
@@ -99,36 +97,54 @@ module.exports = {
 				}
 				]
 		},
+		resolve: {                                                                                
+		    modules: [
+		    	"web_loaders", "web_modules", "node_loaders", "node_modules",
+		    	//path.join(__dirname, '../../../../node_modules'),
+		    	//path.join(__dirname)
+		    ]
+		}, 
 		plugins: [
 			new webpack.ProvidePlugin({
 				  $: 'jquery',
-				  jQuery: 'jquery'
-			}),
+				  jQuery: 'jquery',
+				  _: 'lodash',
+				  d3: 'd3'
+			}) /*,
 			new HtmlWebpackPlugin({
 				title: 'Index',
 				filename: 'index.html',
 				chunks: ['index'],
 				template: path.resolve(__dirname, 'src/common/templates/basic-page.ejs') // Load a custom template (ejs by default see the FAQ for details)
 			}),
-			new HtmlWebpackPlugin({
-				title: 'About this site',
-				filename: 'about.html',
-				chunks: ['about'],
-				template: path.resolve(__dirname, 'src/common/templates/basic-page.ejs') // Load a custom template (ejs by default see the FAQ for details)
-			}),
-			new HtmlWebpackPlugin({
-				title: 'About this site',
-				filename: 'd3csv.html',
-				chunks: ['d3csv'],
-				template: path.resolve(__dirname, 'src/common/templates/basic-page.ejs') // Load a custom template (ejs by default see the FAQ for details)
-			}),
-			new HtmlWebpackPlugin({
-				title: 'tmp test',
-				filename: 'images.html',
-				chunks: ['images'],
-				template: path.resolve(__dirname, 'src/common/templates/basic-page.ejs') // Load a custom template (ejs by default see the FAQ for details)
-			}),
-			// entry for every page needed or have a html template file in the directory
-			]
-		//TODO: Chunks plugin??
+			html webpack plugin created by dynamic configuration from webpack.pages.js */
+		]
 };
+
+var dynamicConfig = function(pages) {
+	var out = new Object();
+	
+	var tmp = new Object();
+	pages.forEach(p =>
+		tmp[p.name] = path.resolve(__dirname, p.file)
+	);
+	out.entry = tmp;
+	
+	var tmp2 = new Array();
+
+	pages.forEach(p => {
+		tmp2.push(
+			new HtmlWebpackPlugin({
+				title: p.title,
+				filename: p.url,
+				chunks: [ p.name ], //ch,
+				template: path.resolve(__dirname, 'src/common/templates/'+p.template)
+			})
+		);
+	});
+	out.plugins = tmp2;
+	
+	return out;
+};
+
+module.exports = merge(staticConfig, dynamicConfig(pages));
