@@ -24,4 +24,11 @@ module.exports = [
 			template: 'basic-page.ejs',
 			file: './src/d3csv/index.js'
 		},
+		{
+			name: 'images',
+			url: 'images.html',
+			title: 'phd copy',
+			template: 'basic-page.ejs',
+			file: './src/images/index.js'
+		},
 ];
