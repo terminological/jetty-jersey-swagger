@@ -31,4 +31,11 @@ module.exports = [
 			template: 'basic-page.ejs',
 			file: './src/images/index.js'
 		},
+		{
+			name: 'ml-methods',
+			url: 'ml-methods.html',
+			title: 'phd copy',
+			template: 'basic-page.ejs',
+			file: './src/images/ml-methods.js'
+		},
 ];

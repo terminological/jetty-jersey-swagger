@@ -47,7 +47,7 @@ var staticConfig = {
 					use: 'csv-loader'
 				},
 				{
-					test: /\.xml$/,
+					test: /\.(xml|mm)$/,
 					use: 'xml-loader',
 				},
 				{
