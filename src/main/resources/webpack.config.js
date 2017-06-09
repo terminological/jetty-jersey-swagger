@@ -51,6 +51,10 @@ var staticConfig = {
 					use: 'xml-loader',
 				},
 				{
+					test: /\.yml|yaml$/,
+					use: ['json-loader','yaml-loader'],
+				},
+				{
 					test: /\.md$/,
 					use: [
 						{
