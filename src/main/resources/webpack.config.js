@@ -137,6 +137,7 @@ var dynamicConfig = function(pages) {
 			new HtmlWebpackPlugin({
 				title: p.title,
 				filename: p.url,
+				chunksSortMode: none,
 				chunks: [ p.name ], //ch,
 				template: path.resolve(__dirname, 'src/common/templates/'+p.template)
 			})

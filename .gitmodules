@@ -1,0 +1,3 @@
+[submodule "src/main/resources/src/copyright"]
+	path = src/main/resources/src/copyright
+	url = git@github.com:robchallen/copyright-content.git

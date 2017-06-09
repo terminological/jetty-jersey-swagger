@@ -2,6 +2,7 @@ import gulshan from "../copyright/literature-review.md";
 import citations from "raw-loader!../copyright/lit-rev.bib";
 import {style} from "../common/css/pub.css";
 import * as bibtex from "bibtex-parser";
+import createMap from "../copyright/ml-methods.js";
 
 $( document.body ).append( $("<div id='content'/>").html(gulshan) );
 $( document.body ).append( $("<div id='citations'/>"));
@@ -32,4 +33,4 @@ Object
 		i++;
 	});
 
-
+createMap( $("#machine-learning-methods"));

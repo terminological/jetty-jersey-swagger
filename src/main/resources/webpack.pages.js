@@ -36,6 +36,6 @@ module.exports = [
 			url: 'ml-methods.html',
 			title: 'phd copy',
 			template: 'basic-page.ejs',
-			file: './src/images/ml-methods.js'
+			file: './src/copyright/ml-methods.js'
 		},
 ];
