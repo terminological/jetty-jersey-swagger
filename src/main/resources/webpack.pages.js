@@ -3,39 +3,53 @@
  */
 
 module.exports = [
-		{
-			name: 'index',
-			url: 'index.html',
-			title: 'Index',
-			template: 'basic-page.ejs',
-			file: './src/index/index.js'
-		},
-		{
-			name: 'about',
-			url: 'about.html',
-			title: 'About this site',
-			template: 'basic-page.ejs',
-			file: './src/about/index.js'
-		},
-		{
-			name: 'd3csv',
-			url: 'd3csv.html',
-			title: 'Demo of D3 using CSV',
-			template: 'basic-page.ejs',
-			file: './src/d3csv/index.js'
-		},
-		{
-			name: 'images',
-			url: 'images.html',
-			title: 'phd copy',
-			template: 'basic-page.ejs',
-			file: './src/images/index.js'
-		},
-		{
-			name: 'ml-methods',
-			url: 'ml-methods.html',
-			title: 'phd copy',
-			template: 'basic-page.ejs',
-			file: './src/copyright/ml-methods.js'
-		},
+    {
+        name: 'index',
+        url: 'index.html',
+        title: 'Index',
+        template: 'basic-page.ejs',
+        file: './src/index/index.js'
+    },
+    {
+        name: 'test',
+        url: 'test.html',
+        title: 'About this site',
+        template: 'basic-page.ejs',
+        file: './src/test/index.js'
+    },
+    {
+        name: 'lit-rev',
+        url: 'lit-rev.html',
+        title: 'PhD Literature Review copy',
+        template: 'basic-page.ejs',
+        file: './src/docs/lit-rev.js'
+    },
+    {
+        name: 'de-identification-protocol',
+        url: 'de-identification-protocol.html',
+        title: 'De-identification study protocol',
+        template: 'basic-page.ejs',
+        file: './src/copyright/figures/de-identification-protocol.js'
+    },
+    {
+        name: 'gulshan-fig-2',
+        url: 'gulshan-fig-2.html',
+        title: 'Gulshan et al 2016 Figure 2',
+        template: 'basic-page.ejs',
+        file: './src/copyright/figures/gulshan-fig-2.js'
+    },
+    {
+        name: 'machine-learning-methods',
+        url: 'machine-learning-methods.html',
+        title: 'Machine learning methods',
+        template: 'basic-page.ejs',
+        file: './src/copyright/figures/machine-learning-methods.js'
+    },
+    {
+        name: 'ml-protocol',
+        url: 'ml-protocol.html',
+        title: 'Main machine learning protocol',
+        template: 'basic-page.ejs',
+        file: './src/copyright/figures/ml-protocol.js'
+    },
 ];

@@ -8,10 +8,11 @@ var path = require('path');
 var webpack = require('webpack');
 var merge = require('webpack-merge');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
+var CopyWebpackPlugin = require('copy-webpack-plugin');
 
 var staticConfig = {
 		/*entry: {
-			index: path.resolve(__dirname, 'src/index/index.js'),
+			index: path.resolve(__dirname, 'src/index/lit-rev.js'),
 		}, entries are handled in the webpack.pages.js*/
 		output: {
 			filename: '[name]-bundle.js',
@@ -69,13 +70,13 @@ var staticConfig = {
 							loader: "markdownit-loader",
 							options: {
 								preset: 'default',
-								breaks: true,
+								breaks: false,
 								typographer: true,
 								use: [
 									require('markdown-it-sub'),
 									require('markdown-it-sup'),
 									require('markdown-it-decorate'), // allows <!-- {.classname} --> to apply to previous markdown element
-									[require('markdown-it-implicit-figures'), {figcaption: true}] // ![some caption](./image.png)
+									[require('markdown-it-implicit-figures'), {figcaption: true}], // ![some caption](./image.png)
 									//add more plugins here.... 
 									]
 							}
@@ -83,9 +84,9 @@ var staticConfig = {
 						]
 				},
 				{
-					test: /\.(png|svg|jpg|gif)$/,
+					test: /\.(png|svg|svgz|jpg|jpeg|gif)$/,
 					use: [
-						'file-loader'
+						'file-loader?name=/[name].[ext]'
 						]
 				},
 				{
@@ -114,7 +115,10 @@ var staticConfig = {
 				  jQuery: 'jquery',
 				  _: 'lodash',
 				  d3: 'd3'
-			}) /*,
+			}) ,
+			new CopyWebpackPlugin([{
+            	from: 'src/main/resources/src/copyright/tables'
+			}])/*,
 			new HtmlWebpackPlugin({
 				title: 'Index',
 				filename: 'index.html',
@@ -129,9 +133,9 @@ var dynamicConfig = function(pages) {
 	var out = new Object();
 	
 	var tmp = new Object();
-	pages.forEach(p =>
-		tmp[p.name] = path.resolve(__dirname, p.file)
-	);
+	pages.forEach(p => {
+        tmp[p.name] = path.resolve(__dirname, p.file);
+    });
 	out.entry = tmp;
 	
 	var tmp2 = new Array();
@@ -141,7 +145,7 @@ var dynamicConfig = function(pages) {
 			new HtmlWebpackPlugin({
 				title: p.title,
 				filename: p.url,
-				chunksSortMode: none,
+				chunksSortMode: 'none',
 				chunks: [ p.name ], //ch,
 				template: path.resolve(__dirname, 'src/common/templates/'+p.template)
 			})

@@ -5,9 +5,9 @@ This markdown file should be rendered and inserted into a page
 
 <div id="graph1"></div>
 
-- That div will be an anchor point for a d3 graph defined by the about.js file
+That div will be an anchor point for a d3 graph defined by the about.js file
 
-
+## Test embedded tables
 
 | Tables        | Are           | Cool  |
 | ------------- |:-------------:| -----:|
