@@ -30,6 +30,7 @@ public class RunServer {
 				) 
 		);
 		System.out.println("Server started. press enter to stop...");
+		
 		System.in.read();
 		server.close();
 		System.out.println("Server stopped");

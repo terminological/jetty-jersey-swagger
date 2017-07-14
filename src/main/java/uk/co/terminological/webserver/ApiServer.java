@@ -1,5 +1,7 @@
 package uk.co.terminological.webserver;
 
+import java.io.File;
+import java.net.URL;
 import java.util.Set;
 
 
@@ -63,6 +65,10 @@ public class ApiServer implements AutoCloseable {
 			handlers.addHandler( buildStatic() );
 			
 			server.setHandler( handlers );
+			logger.info("Started web server on port: "+apiConfig.getPort() );
+			logger.info("Api root: "+apiConfig.getApiPath() );
+			logger.info("Api documentation: "+apiConfig.getDocPath() );
+			logger.info("Api description: "+apiConfig.getApiDescription() );
 			server.start();
 			
 		} catch ( Exception e ) {
@@ -133,7 +139,10 @@ public class ApiServer implements AutoCloseable {
 	
 	private ContextHandler buildStatic() throws Exception {
 		final ResourceHandler staticResourceHandler = new ResourceHandler();
-		staticResourceHandler.setResourceBase( this.getClass().getClassLoader().getResource("dist").toURI().toString() );
+		URL tmp = this.getClass().getClassLoader().getResource("dist");
+		File tmpFile = new File(tmp.getFile());
+		if (!tmpFile.exists()) tmpFile.mkdirs();
+		staticResourceHandler.setResourceBase( tmp.toURI().toString() );
 		final ContextHandler staticContext = new ContextHandler();
 		staticContext.setContextPath( "/" );
 		staticContext.setHandler( staticResourceHandler );
