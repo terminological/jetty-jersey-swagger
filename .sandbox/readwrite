@@ -1,0 +1,7 @@
+# Additional paths to bind read write in the sandbox.
+# One per line. $HOME binds to users home directory.
+# All paths under the project directory are read write
+
+# e.g. Include a cache directory:
+# $HOME/.cache/my-app
+
